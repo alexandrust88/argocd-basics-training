@@ -45,7 +45,6 @@ In this task we're going to configure a version pinning with a Git tag. The goal
 
 First we create a Git tag `v1.0.0` and push the tag to the repository. We want to re-create the example application and let it track the created git tag `v1.0.0`.
 
-{{% details title="Hint" %}}
 
 To create and push a Git tag execute the following command:
 ```bash
@@ -56,7 +55,7 @@ git push origin --tags
 
 Re-create the simple application example:
 ```bash
-argocd app create argo-example-$STUDENT --repo https://gitea.labapp.acend.ch/$STUDENT/argocd-training-examples.git --path 'example-app' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
+argocd app create argo-example-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples   --path 'example-app' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
 ```
 
 To pin the v1.0.0 version tag on our application execute the following command:
@@ -98,7 +97,7 @@ Check the number of configured replicas on the app deployment.
 To see the number of configured replicas execute follwing command:
 
 ```bash
-kubectl describe deployment simple-example
+oc describe deployment simple-example
 ```
 
 You can see in the command output, the number of replicas didn't changed and remains to one.
@@ -146,7 +145,7 @@ If the app is in sync, you can check the number of replicas of the deployment.
 
 
 ```bash
-kubectl describe deployment simple-example
+oc describe deployment simple-example
 ```
 
 Now you can see in the output that the replica count has changed to 2.

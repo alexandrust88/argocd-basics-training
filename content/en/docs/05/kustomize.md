@@ -50,7 +50,7 @@ Let's deploy the simple-example from lab 1 using [kustomize](https://github.com/
 First you'll have to create a new Argo CD application.
 
 ```bash
-argocd app create argo-kustomize-$STUDENT --repo https://{{% param giteaUrl %}}/$STUDENT/argocd-training-examples.git --path 'kustomize/simple-example' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
+argocd app create argo-kustomize-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples  --path 'kustomize/simple-example' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
 ```
 
 Sync the application
@@ -67,7 +67,7 @@ argocd app sync argo-kustomize-$STUDENT
 And verify the deployment:
 
 ```bash
-{{% param cliToolName %}} get pod --namespace $STUDENT --watch
+oc  get pod --namespace $STUDENT --watch
 ```
 
 Tell the application to sync automatically, to enable self-healing and auto-prune
@@ -86,21 +86,17 @@ argocd app set argo-kustomize-$STUDENT --auto-prune
 We can set the `kustomize` configuration parameter with the following command:
 
 ```bash
-argocd app set argo-kustomize-$STUDENT --nameprefix=acend
+argocd app set argo-kustomize-$STUDENT --nameprefix=$STUDENT
 ```
 
 And take a look at the application in the web UI or using the command line tool
 
-{{% details title="Hint" %}}
 
 ```bash
 argocd app get argo-kustomize-$STUDENT
 ```
-{{% /details %}}
 
-{{% alert title="Warning" color="secondary" %}}
 Only use this way of setting params in dev and test stages. Not for Production!
-{{% /alert %}}
 
 
 ## Task   .3: Create a second application representing the production stage
@@ -111,16 +107,14 @@ This does mean we deploy an overlay which specifically configures the production
 
 Let's create the production stage Argo CD application (path: ``) with the name `argo-kustomize-prod-$STUDENT` and enable automated sync, self-healing and pruning.
 
-{{% details title="Hint" %}}
 
 ```bash
-argocd app create argo-kustomize-prod-$STUDENT --repo https://{{% param giteaUrl %}}/$STUDENT/argocd-training-examples.git --path 'kustomize/overlays-example/overlays/production' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
+argocd app create argo-kustomize-prod-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples --path 'kustomize/overlays-example/overlays/production' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
 argocd app set argo-kustomize-prod-$STUDENT --sync-policy automated
 argocd app set argo-kustomize-prod-$STUDENT --self-heal
 argocd app set argo-kustomize-prod-$STUDENT --auto-prune
 ```
 
-{{% /details %}}
 
 And verify the deployment:
 
@@ -133,9 +127,7 @@ And verify the deployment:
 
 Delete the applications after you've explored the Argo CD Resources and the managed Kubernetes resources.
 
-{{% details title="Hint" %}}
 ```bash
 argocd app delete argo-kustomize-$STUDENT
 argocd app delete argo-kustomize-prod-$STUDENT
 ```
-{{% /details %}}

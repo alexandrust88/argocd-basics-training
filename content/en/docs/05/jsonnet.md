@@ -137,31 +137,27 @@ Ok now replace the `<username>` placeholder in the `params.libsonnet` file with 
 
 Commit and push the changes to your repository.
 
-{{% details title="Hint" %}}
 ```bash
 git add helm/simple-example/values.yaml
 git commit -m "Change Username"
 git push
 ```
-{{% /details %}}
 
 
 Create the new Argo CD application.
 
 ```bash
-argocd app create argo-jsonnet-$STUDENT --repo https://{{% param giteaUrl %}}/$STUDENT/argocd-training-examples.git --path 'jsonnet' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
+argocd app create argo-jsonnet-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples  --path 'jsonnet' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
 ```
 
 Sync the application
 
-{{% details title="Hint" %}}
 
 To sync (deploy) the resources you can simply click sync in the web UI or execute the following command:
 
 ```bash
 argocd app sync argo-jsonnet-$STUDENT
 ```
-{{% /details %}}
 
 And verify whether your jsonnet Application definition has be successfully synced.
 
@@ -170,13 +166,11 @@ And verify whether your jsonnet Application definition has be successfully synce
 
 Tell the application to sync automatically, to enable self-healing and auto-prune
 
-{{% details title="Hint" %}}
 ```bash
 argocd app set argo-jsonnet-$STUDENT --sync-policy automated
 argocd app set argo-jsonnet-$STUDENT --self-heal
 argocd app set argo-jsonnet-$STUDENT --auto-prune
 ```
-{{% /details %}}
 
 Now let's change the replicacount of the deployment and scale to `2` pods.
 
@@ -195,18 +189,18 @@ Change the replica param in your `params.libsonnet` to 2
 
 Commit and push the changes to your repository.
 
-{{% details title="Hint" %}}
+
+
 ```bash
 git add helm/simple-example/values.yaml
 git commit -m "Scale Jsonnet to two"
 git push
 ```
-{{% /details %}}
 
 And verify the result in the ArgoCD Ui or by using the following command, this might take a little while to happen, depending on how many trainees are currently working on the labs. Hint: hit refresh to speed up the process.
 
 ```bash
-{{% param cliToolName %}} get pod --namespace $STUDENT --watch
+oc  get pod --namespace $STUDENT --watch
 ```
 
 
@@ -214,8 +208,6 @@ And verify the result in the ArgoCD Ui or by using the following command, this m
 
 Delete the applications after you've explored the Argo CD Resources and the managed Kubernetes resources.
 
-{{% details title="Hint" %}}
 ```bash
 argocd app delete argo-jsonnet-$STUDENT
 ```
-{{% /details %}}

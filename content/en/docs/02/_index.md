@@ -66,7 +66,7 @@ Now we want to deploy the resource manifests contained in the cloned repository 
 To deploy the resources using the Argo CD CLI use the following command:
 
 ```bash
-argocd app create argo-$STUDENT --repo https://{{% param giteaUrl %}}/$STUDENT/argocd-training-examples.git --path 'example-app' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
+argocd app create argo-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples  --path 'example-app' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
 ```
 
 Expected output: `application 'argo-<username>' created`
@@ -350,30 +350,6 @@ This is a great way to enforce a strict GitOps principle. Changes which are manu
 
 This is an optional task.
 
-{{% onlyWhenNot openshift %}}
-To expose an application we need to specify a so called `ingress` resource. Create an `ingress.yaml` file next to the `deployment.yaml` in the example-app directory with the following content.
-
-```yaml
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: simple-example
-spec:
-  rules:
-    - host: simple-example-<username>.{{% param appDomain %}}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service: 
-                name: simple-example
-                port: 
-                  number: 5000
-```
-
-{{% /onlyWhenNot  %}}
 {{% onlyWhen openshift %}}
 To expose an application we need to specify a so called `route` resource. Create an `route.yaml` file next to the `deployment.yaml` in the example-app directory.
 
@@ -404,12 +380,12 @@ git commit -m "Expose application"
 git push
 ```
 
-After ArgoCD syncs the changes, you can access the example applications url: `http://simple-example-<username>.{{% param appDomain %}}`
+After ArgoCD syncs the changes, you can access the example applications url via your route which you created 
 
 Verify using the following command:
 
 ```bash
-curl http://simple-example-$STUDENT.{{% param appDomain %}}
+curl  your--route 
 ```
 
 The result should look similar to this:
@@ -425,7 +401,7 @@ Please note, that we didn't expose the application on `https` this might cause s
 
 You probably asked yourself how can I delete deployed resources on the container platform? Argo CD can be configured to delete resources that no longer exist in the Git repository.
 
-First delete the files `service.yaml` and `ingress.yaml` from Git repository and push the changes
+First delete the files `service.yaml` and `ingress.yaml` or `route.yaml`" from Git repository and push the changes
 
 ```bash
 git add .

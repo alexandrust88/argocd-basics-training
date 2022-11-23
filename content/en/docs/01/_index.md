@@ -1,3 +1,176 @@
+```yaml
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: argocd123
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: argocd
+  namespace: argocd123
+spec:
+  targetNamespaces:
+    - argocd123
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: "argocd-operator"
+  namespace: "argocd123"
+  annotations: 
+    olm.operatorGroup: argocd
+spec:
+  channel: "alpha" 
+  installPlanApproval: "Automatic"
+  source: "community-operators" 
+  sourceNamespace: "openshift-marketplace"
+  name: "argocd-operator"
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: "prometheus"
+  namespace: "argocd123"
+  annotations: 
+    olm.operatorGroup: argocd
+spec:
+  channel: "beta" 
+  installPlanApproval: "Automatic"
+  source: "community-operators" 
+  sourceNamespace: "openshift-marketplace"
+  name: "prometheus"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ArgoCD
+metadata:
+  name: demolab-argocd
+  namespace: argocd123
+spec:
+  # version: v1.5.5
+  usersAnonymousEnabled: true
+  ha:
+    enabled: true
+  dex:
+    image: quay.io/redhat-cop/dex
+    version: v2.22.0-openshift
+    # version: v2.21.0
+    openShiftOAuth: true
+  grafana:
+    enabled: true
+    route: 
+      enabled: true
+  prometheus:
+    enabled: true
+    route: 
+      enabled: true
+  rbac:
+    defaultPolicy: 'role:readonly'
+    policy: |
+      g, system:cluster-admins, role:admin
+      g, argocd-users, role:readonly
+      g, argocd-admins, role:admin
+      g, tektonbot, role:admin
+    scopes: '[groups]'
+  applicationInstanceLabelKey: paolocarta.me/argoapp
+  repositories: |
+    - url: https://github.com/paolocarta/ocp-gitops-argocd.git
+  server:
+    enabled: true
+    route: 
+      enabled: true
+    autoscale:
+      enabled: true
+      hpa:
+        maxReplicas: 3
+        minReplicas: 2
+        scaleTargetRef:
+          apiVersion: extensions/v1beta1
+          kind: Deployment
+          name: demolab-argocd-server
+        targetCPUUtilizationPercentage: 50
+  resourceExclusions: |
+    - apiGroups:
+      - tekton.dev
+      kinds:
+      - PipelineRun
+      - TaskRun
+      clusters:
+      - "https://kubernetes.default.svc"
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: cluster-admin-argocd
+    # generateName: cluster-admin-argocd
+subjects:
+  - kind: ServiceAccount
+    name: argocd-application-controller
+    namespace: argocd123
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+---
+apiVersion: security.openshift.io/v1
+kind: SecurityContextConstraints
+metadata:
+  annotations:
+    kubernetes.io/description: anyuid provides all features of the restricted SCC
+      but allows users to run with any UID and any GID.
+  name: anyuid
+allowHostDirVolumePlugin: false
+allowHostIPC: false
+allowHostNetwork: false
+allowHostPID: false
+allowHostPorts: false
+allowPrivilegeEscalation: true
+allowPrivilegedContainer: false
+allowedCapabilities: []
+defaultAddCapabilities: []
+fsGroup:
+  type: RunAsAny
+groups:
+- system:cluster-admins
+priority: 10
+readOnlyRootFilesystem: false
+requiredDropCapabilities:
+- MKNOD
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: MustRunAs
+supplementalGroups:
+  type: RunAsAny
+users:
+- system:serviceaccount:argocd123:argocd-redis-ha
+volumes:
+- configMap
+- downwardAPI
+- emptyDir
+- persistentVolumeClaim
+- projected
+- secret
+---
+
+```
+
+
+
+
+```yaml
+---
+kind: argoproj.io/v1alpha1
+metadata:
+  name: argocd
+  namespace: argocd123
+spec:
+  server:
+    route:
+      enabled: true
+```
+
 ---
 title: "1. Getting started"
 weight: 1

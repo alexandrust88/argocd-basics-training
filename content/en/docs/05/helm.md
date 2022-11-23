@@ -67,40 +67,37 @@ Read more about the helm integration in the [official documentation](https://arg
 
 ## Task   .1: Deploy the simple-example as Helm Chart
 
-Let's deploy the simple-example from lab 1 using a [helm chart](https://github.com/acend/argocd-training-examples/tree/master/helm/simple-example).
+Let's deploy the simple-example from lab 1 using a [helm chart](https://github.com/alexandrust88/argocd-training-examples/tree/master/helm/simple-example).
 
 First you'll have to create a new Argo CD application.
 
 ```bash
-argocd app create argo-helm-$STUDENT --repo https://{{% param giteaUrl %}}/$STUDENT/argocd-training-examples.git --path 'helm/simple-example' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
+argocd app create argo-helm-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples  --path 'helm/simple-example' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
 ```
 
 Sync the application
 
-{{% details title="Hint" %}}
 
 To sync (deploy) the resources you can simply click sync in the web UI or execute the following command:
 
 ```bash
 argocd app sync argo-helm-$STUDENT
 ```
-{{% /details %}}
 
 And verify the deployment:
 
 ```bash
-{{% param cliToolName %}} get pod --namespace $STUDENT --watch
+oc get pod --namespace $STUDENT --watch
 ```
 
 Tell the application to sync automatically, to enable self-healing and auto-prune
 
-{{% details title="Hint" %}}
+
 ```bash
 argocd app set argo-helm-$STUDENT --sync-policy automated
 argocd app set argo-helm-$STUDENT --self-heal
 argocd app set argo-helm-$STUDENT --auto-prune
 ```
-{{% /details %}}
 
 
 ## Task   .2: Scale the deployment to 2 replicas
@@ -111,9 +108,7 @@ We can set the `helm` parameter with the following command:
 argocd app set argo-helm-$STUDENT --parameter replicaCount=2
 ```
 
-{{% alert title="Warning" color="secondary" %}}
 Only use this way of setting params in dev and test stages. Not for Production!
-{{% /alert %}}
 
 Since the `sync-policy` is set to `automated` the second pod will be deployed immediately.
 
@@ -175,7 +170,7 @@ Let's create the production stage Argo CD application with the name `argo-helm-p
 {{% details title="Hint" %}}
 
 ```bash
-argocd app create argo-helm-prod-$STUDENT --repo https://{{% param giteaUrl %}}/$STUDENT/argocd-training-examples.git --path 'helm/simple-example' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
+argocd app create argo-helm-prod-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples   --path 'helm/simple-example' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
 argocd app set argo-helm-prod-$STUDENT --sync-policy automated
 argocd app set argo-helm-prod-$STUDENT --self-heal
 argocd app set argo-helm-prod-$STUDENT --auto-prune
@@ -186,16 +181,14 @@ argocd app set argo-helm-prod-$STUDENT --auto-prune
 And verify the deployment:
 
 ```bash
-{{% param cliToolName %}} get pod --namespace $STUDENT --watch
+oc get pod --namespace $STUDENT --watch
 ```
 
 Tell the Argo CD app to use the `values-production.yaml` values file
 
-{{% details title="Hint" %}}
 ```bash
 argocd app set argo-helm-prod-$STUDENT --values values-production.yaml
 ```
-{{% /details %}}
 
 Change for example the ingress hostname to something different in the `values-production.yaml` and verify whether you can access the new hostname.
 
@@ -204,9 +197,7 @@ Change for example the ingress hostname to something different in the `values-pr
 
 Delete the applications after you've explored the Argo CD Resources and the managed Kubernetes resources.
 
-{{% details title="Hint" %}}
 ```bash
 argocd app delete argo-helm-$STUDENT
 argocd app delete argo-helm-prod-$STUDENT
 ```
-{{% /details %}}

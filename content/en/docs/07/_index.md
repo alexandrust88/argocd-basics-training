@@ -43,7 +43,7 @@ project-<username>               <none>        <none>   <none>                  
 The next step is to deploy a new application and assign it to the created project `project-<username>` by using the flag `--project`
 
 ```bash
-argocd app create project-app-$STUDENT --repo https://github.com/acend/argocd-training-examples.git --path 'example-app' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT --project project-$STUDENT
+argocd app create project-app-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples  --path 'example-app' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT --project project-$STUDENT
 ```
 
 You will receive an error when trying to create the new application

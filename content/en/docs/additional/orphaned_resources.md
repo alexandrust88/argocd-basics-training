@@ -10,7 +10,7 @@ This lab contains demonstrates how to find orphaned top-level resources with Arg
 ## Task   .1: Create application and project
 
 ```bash
-argocd app create argo-$STUDENT --repo https://github.com/acend/argocd-training-examples.git --path 'example-app' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
+argocd app create argo-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples  --path 'example-app' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
 argocd app sync argo-$STUDENT
 ```
 

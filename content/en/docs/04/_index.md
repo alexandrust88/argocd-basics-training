@@ -55,21 +55,19 @@ Create the new application `argo-wave-$STUDENT` with the following command. The 
 
 
 ```bash
-argocd app create argo-wave-$STUDENT --repo https://{{% param giteaUrl %}}/$STUDENT/argocd-training-examples.git --path 'sync-wave' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
+argocd app create argo-wave-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples  --path 'sync-wave' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
 ```
 
 Sync the application:
 
-{{% details title="Hint" %}}
 ```bash
 argocd app sync argo-wave-$STUDENT
 ```
-{{% /details %}}
 
 And verify the deployment:
 
 ```bash
-{{% param cliToolName %}} get pod --namespace $STUDENT --watch
+oc get pod --namespace $STUDENT --watch
 ```
 
 
@@ -77,8 +75,6 @@ And verify the deployment:
 
 Delete the application after you've explored the Argo CD Resources and the managed Kubernetes resources.
 
-{{% details title="Hint" %}}
 ```bash
 argocd app delete argo-wave-$STUDENT
 ```
-{{% /details %}}

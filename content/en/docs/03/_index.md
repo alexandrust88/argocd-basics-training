@@ -34,13 +34,9 @@ metadata:
 
 It's basically a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) which starts a Pod that executes some sort of code.
 
-{{% alert  color="primary" title="Note" %}}
 Named hooks (i.e. ones with `/metadata/name`) will only be created once. If you want a hook to be re-created each time either use BeforeHookCreation policy or `/metadata/generateName`.
-{{% /alert %}}
 
-{{% alert  color="primary" title="Note" %}}
 Hooks are not run during a [selective sync](https://argoproj.github.io/argo-cd/user-guide/selective_sync/)
-{{% /alert %}}
 
 
 ### Hook Deletion Policies
@@ -65,7 +61,7 @@ metadata:
 
 ## Task   .1: Hook Example
 
-In this task we're going to deploy an [example](https://github.com/acend/argocd-training-examples/tree/master/pre-post-sync-hook) which has `pre` and `post` hooks.
+In this task we're going to deploy an [example](https://github.com/alexandrust88/argocd-training-examples/tree/master/pre-post-sync-hook) which has `pre` and `post` hooks.
 
 Create the new application `argo-hook-$STUDENT` with the following command. It will create a service, a deployment and two hooks as soon as the application is synced.
 
@@ -75,7 +71,7 @@ Create the new application `argo-hook-$STUDENT` with the following command. It w
 
 
 ```bash
-argocd app create argo-hook-$STUDENT --repo https://{{% param giteaUrl %}}/$STUDENT/argocd-training-examples.git --path 'pre-post-sync-hook' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
+argocd app create argo-hook-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples  --path 'pre-post-sync-hook' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
 ```
 
 Sync the application
@@ -89,7 +85,7 @@ argocd app sync argo-hook-$STUDENT
 And verify the deployment:
 
 ```bash
-{{% param cliToolName %}} get pod --namespace $STUDENT --watch
+oc get pod --namespace $STUDENT --watch
 ```
 
 Or in the web UI.

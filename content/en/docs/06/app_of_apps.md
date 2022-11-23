@@ -26,7 +26,7 @@ As we can see the directory consists of three ArgoCD applications. Each of them 
 To deploy the app of apps into our namespace we need to edit the three application custom Resources (`app-of-apps/apps/*`):
 
 * Replace all occurrences `<username>` in the **three** yaml files.
-* Set the correct `<repourl>` eg. (`https://{{% param giteaUrl %}}/<username>/argocd-training-examples.git`)
+* Set the correct `<repourl>` eg. (`https://github.com/alexandrust88/argocd-training-examples `)
 
 <!-- markdownlint-disable -->
 {{< highlight YAML "hl_lines=4 10 15" >}}
@@ -51,15 +51,13 @@ spec:
 
 Make sure to also commit and push your changes to the git repository.
 
-{{% alert title="Note" color="primary" %}}Please make sure, to update all three application files{{% /alert %}}
+Please make sure, to update all three application files
 
-{{% details title="Hint" %}}
 ```bash
 git add .
 git commit -m "Update URLs for App of App"
 git push
 ```
-{{% /details %}}
 
 
 ## Task   .2: Create Argo CD Application
@@ -67,7 +65,7 @@ git push
 Now let us create the parent Application which deploys our child applications as Custom Resources.
 
 ```bash
-argocd app create argo-aoa-$STUDENT --repo https://{{% param giteaUrl %}}/$STUDENT/argocd-training-examples.git --path 'app-of-apps' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
+argocd app create argo-aoa-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples  --path 'app-of-apps' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT
 ```
 
 Expected output: `application 'argo-aoa-<username>' created`
@@ -80,10 +78,7 @@ As you can see our newly created parent app consits of another three apps.
 ## Task   .3: Delete the Application
 
 Delete the application after you've explored the Argo CD Resources and the managed Kubernetes resources.
-
-{{% details title="Hint" %}}
 ```bash
 argocd app delete argo-aoa-$STUDENT
 ```
-{{% /details %}}
 

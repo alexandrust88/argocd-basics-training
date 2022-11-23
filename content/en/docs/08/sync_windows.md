@@ -13,7 +13,7 @@ Now we want to create a new empty Argo CD project.
 
 ```bash
 argocd proj create -s "*" -d "*,*" project-sync-windows-$STUDENT
-argocd app create sync-windows-$STUDENT --repo https://github.com/acend/argocd-training-examples.git --path 'example-app' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT --project project-sync-windows-$STUDENT
+argocd app create sync-windows-$STUDENT --repo https://github.com/alexandrust88/argocd-training-examples   --path 'example-app' --dest-server https://kubernetes.default.svc --dest-namespace $STUDENT --project project-sync-windows-$STUDENT
 argocd app sync sync-windows-$STUDENT
 ```
 
