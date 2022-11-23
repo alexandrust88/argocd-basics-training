@@ -43,7 +43,7 @@ argocd app set argo-kustomize-$STUDENT --nameprefix=<namePrefix>
 Read more about the kustomize integration in the [official documentation](https://argo-cd.readthedocs.io/en/stable/user-guide/kustomize/)
 
 
-## Task {{% param sectionnumber %}}.1: Deploy the simple-example with kustomize
+## Task   .1: Deploy the simple-example with kustomize
 
 Let's deploy the simple-example from lab 1 using [kustomize](https://github.com/acend/argocd-training-examples/tree/master/kustomize/simple-example).
 
@@ -81,7 +81,7 @@ argocd app set argo-kustomize-$STUDENT --auto-prune
 {{% /details %}}
 
 
-## Task {{% param sectionnumber %}}.2: Set a configuration parameter
+## Task   .2: Set a configuration parameter
 
 We can set the `kustomize` configuration parameter with the following command:
 
@@ -103,7 +103,7 @@ Only use this way of setting params in dev and test stages. Not for Production!
 {{% /alert %}}
 
 
-## Task {{% param sectionnumber %}}.3: Create a second application representing the production stage
+## Task   .3: Create a second application representing the production stage
 
 Let's now also deploy an application for the production stage.
 
@@ -129,7 +129,7 @@ And verify the deployment:
 ```
 
 
-## Task {{% param sectionnumber %}}.4: Delete the Applications
+## Task   .4: Delete the Applications
 
 Delete the applications after you've explored the Argo CD Resources and the managed Kubernetes resources.
 

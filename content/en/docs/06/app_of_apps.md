@@ -21,7 +21,7 @@ First let us examine our ArgoCD example repository with the child applications.
 As we can see the directory consists of three ArgoCD applications. Each of them has its own source repository pointing to the corresponding repository containing a kubernetes deployment yaml file.
 
 
-## Task {{% param sectionnumber %}}.1: Specify the Application Resources
+## Task   .1: Specify the Application Resources
 
 To deploy the app of apps into our namespace we need to edit the three application custom Resources (`app-of-apps/apps/*`):
 
@@ -62,7 +62,7 @@ git push
 {{% /details %}}
 
 
-## Task {{% param sectionnumber %}}.2: Create Argo CD Application
+## Task   .2: Create Argo CD Application
 
 Now let us create the parent Application which deploys our child applications as Custom Resources.
 
@@ -77,7 +77,7 @@ Explore the Argo parent application in the web UI.
 As you can see our newly created parent app consits of another three apps.
 
 
-## Task {{% param sectionnumber %}}.3: Delete the Application
+## Task   .3: Delete the Application
 
 Delete the application after you've explored the Argo CD Resources and the managed Kubernetes resources.
 
