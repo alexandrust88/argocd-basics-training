@@ -71,9 +71,9 @@ argocd app create argo-$STUDENT --repo https://{{% param giteaUrl %}}/$STUDENT/a
 
 Expected output: `application 'argo-<username>' created`
 
-{{% alert title="Note" color="primary" %}}We don't need to provide Git credentials because the repository is readable for non-authenticated users as well{{% /alert %}}
+We don't need to provide Git credentials because the repository is readable for non-authenticated users as well
 
-{{% alert title="Note" color="primary" %}}If you want to deploy it in a different namespace, make sure the namespaces exists before synching the app{{% /alert %}}
+If you want to deploy it in a different namespace, make sure the namespaces exists before synching the app
 
 Once the application is created, you can view its status:
 
@@ -418,7 +418,7 @@ The result should look similar to this:
 <h1 style=color:#e81198>Hello golang</h1><h2>ID: e81198</h2>
 ```
 
-{{% alert title="Note" color="primary" %}}Please note, that we didn't expose the application on `https` this might cause some errors, when you open the URL in certain browsers.{{% /alert %}}
+Please note, that we didn't expose the application on `https` this might cause some errors, when you open the URL in certain browsers.
 
 
 ## Task   .6: Pruning
@@ -522,9 +522,9 @@ Argo CD can't any longer access the protected repository without providing crede
 argocd repo add https://{{% param giteaUrl %}}/$STUDENT/argocd-training-examples.git --username $STUDENT
 ```
 
-{{% alert title="Note" color="primary" %}}
+
 You can provide the password through the cli by using the flag `--password`.
-{{% /alert %}}
+
 
 Now the sync should work. Argo CD use the configured credentials to authenticate against your repository in Gitea.
 
@@ -539,9 +539,9 @@ argocd repocreds add https://{{% param giteaUrl %}}/$STUDENT --username $STUDENT
 
 Finally make your personal Git repository public again for the following labs. Uncheck the option `Visibility: Make Repository Private` under `Settings -> Repository` in the Gitea UI.
 
-{{% alert title="Note" color="primary" %}}
+
 TLS certificates and SSH private keys are supported alternative authentication methods by Argo CD. Proxy support can be configured as well in the repository settings.
-{{% /alert %}}
+
 
 Have a look in the [documentation](https://argoproj.github.io/argo-cd/user-guide/private-repositories/) for detailed information about accessing private repositories.
 
