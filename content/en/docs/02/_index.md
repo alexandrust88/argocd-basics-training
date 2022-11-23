@@ -106,7 +106,7 @@ The application status is initially in OutOfSync state. To sync (deploy) the res
 argocd app sync argo-$STUDENT
 ```
 
-This command retrieves the manifests from the git repository and performs a `{{% param cliToolName %}} apply` on them. Because all our manifests has been deployed manually before, no new rollout of them will be triggered on Kubernetes. But form now on, all resources are managed by Argo CD. Congrats, the first step in direction GitOps! :)
+This command retrieves the manifests from the git repository and performs a `oc apply` on them. Because all our manifests has been deployed manually before, no new rollout of them will be triggered on Kubernetes. But form now on, all resources are managed by Argo CD. Congrats, the first step in direction GitOps! :)
 
 You should see an output similar to the following lines:
 
@@ -319,13 +319,13 @@ argocd app set argo-$STUDENT --self-heal
 Watch the deployment `simple-example` in a separate terminal
 
 ```bash
-{{% param cliToolName %}} get deployment simple-example --watch --namespace=$STUDENT
+oc get deployment simple-example --watch --namespace=$STUDENT
 ```
 
 Let's scale our `simple-example` Deployment and observe whats happening:
 
 ```bash
-{{% param cliToolName %}} scale deployment simple-example --replicas=3 --namespace=$STUDENT
+oc scale deployment simple-example --replicas=3 --namespace=$STUDENT
 ```
 
 Argo CD will immediately scale back the `simple-example` Deployment to `1` replicas. You will see the desired replicas count in the watched Deployment.
@@ -479,7 +479,7 @@ The configuration changes made on ArgoCD objects through the UI or by cli tool `
 Let's list all Kubernetes objects of type `Application` (short form: `app`)
 
 ```bash
-{{% param cliToolName %}} get applications --namespace={{% param argoInfraNamespace %}}
+oc get applications --namespace={{% param argoInfraNamespace %}}
 ```
 
 ```
@@ -490,13 +490,13 @@ argo-<username>    Synced        Healthy
 You will see the application which we created some chapters ago by cli command `argocd app create...`. To see the complete configuration of the `Application` as _yaml_ use:
 
 ```bash
-{{% param cliToolName %}} get applications argo-$STUDENT -oyaml --namespace={{% param argoInfraNamespace %}}
+oc  get applications argo-$STUDENT -oyaml --namespace={{% param argoInfraNamespace %}}
 ```
 
 You even can edit the `Application` resource by using:
 
 ```bash
-{{% param cliToolName %}} edit applications argo-$STUDENT --namespace={{% param argoInfraNamespace %}}
+oc edit applications argo-$STUDENT --namespace={{% param argoInfraNamespace %}}
 ```
 
 This allows us to manage the ArgoCD application definitions in a declarative way as well. It is a common pattern to have one ArgoCD application which references n child Applications which allows us a fast bootstrapping of a whole environment or a new cluster. This pattern is well known as the [App of apps]({{< ref  "06" >}}) pattern.
